@@ -1,0 +1,24 @@
+{
+  "name": "sistema_matricula_psa",
+  "version": "1.0.0",
+  "description": "Trabalho de psa sistema de matrículas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukzfreitas/sistema_matricula_psa.git"
+  },
+  "author": "Camila e Lucas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukzfreitas/sistema_matricula_psa/issues"
+  },
+  "homepage": "https://github.com/lukzfreitas/sistema_matricula_psa#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.8",
+    "mongoose": "^5.3.8"
+  }
+}
