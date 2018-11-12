@@ -1,0 +1,61 @@
+<md-dialog aria-label="Requisitos">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Requisitos</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <img src="images/close.png" height="25" width="25" aria-label="Close dialog">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+
+
+        <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <th>Cod Cred</th>
+              <th>Nome da disciplina</th>
+              <th>vagas</th>              
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="disciplinaRequisito in disciplinasRequisitos track by $index">
+              <td>{{disciplinaRequisito.codCred}}</td>
+              <td>{{disciplinaRequisito.nomeDisciplina}}</td>
+              <td>{{disciplinaRequisito.vagas}}</td>                            
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- <md-list>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text" layout="row" layout-align="center center">
+              <span class="col-md-3 col-xs-2">Código</span>
+              <span class="col-md-4 col-xs-4">Descrição</span>
+              <span class="col-md-4 col-xs-4">Período</span>
+              <span class="col-md-2 col-xs-2">Nome do Responsável</span>              
+            </div>
+          </md-list-item>
+          <md-list-item ng-repeat="oportunidade in oportunidades">
+            <span class="col-md-2 col-xs-2">{{oportunidade.codigo}}</span>
+            <span class="col-md-4 col-xs-4">{{oportunidade.descricao}}</span>
+            <span class="col-md-4 col-xs-4">
+              {{oportunidade.dataInicioFormatada}} à {{oportunidade.dataFimFormatada}}
+            </span>
+            </span>
+            <span class="col-md-2 col-xs-2">{{oportunidade.responsavel}}</span>            
+          </md-list-item>
+        </md-list> -->
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button class="md-raised md-warn" ng-click="cancel()" style="margin-right:20px;">
+        Fechar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
