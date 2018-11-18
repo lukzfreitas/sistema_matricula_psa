@@ -70,10 +70,11 @@
               <td class="ng-binding col-md-1 col-xs-1">{{turma.vagas}}</td>
               <td class="ng-binding col-md-3 col-xs-3">{{turma.horario}}</td>
               
-              <!-- <td class="ng-binding col-md-1 col-xs-1">
-                <md-button ng-disabled="!oportunidade.organizacao_id" ng-click="editar(oportunidade)" class="md-primary">editar</md-button>
-              </td>
               <td class="ng-binding col-md-1 col-xs-1">
+                <md-button ng-show="!turma.matriculado" ng-click="matricularSe($index, turmas, turma)" class="md-primary">matricular-se</md-button>
+                <md-button ng-show="turma.matriculado" ng-click="cancelarMatricula($index, turmas, turma)" class="md-primary">cancelar matricula</md-button>
+              </td>
+              <!-- <td class="ng-binding col-md-1 col-xs-1">
                 <md-button ng-click="deletar($index, oportunidades, oportunidade)" class="md-accent">deletar</md-button>
               </td> -->
             </tr>

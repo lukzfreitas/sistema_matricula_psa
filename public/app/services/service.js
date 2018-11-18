@@ -26,22 +26,13 @@ angular.module('service', [])
     return {        
         get : function() {                        
             return $http.get('/api/turmas');
-        }
-        // create : function(data) {
-        //     return $http.post('/api/voluntarios', data);
-        // },
-        // update : function(data) {
-        //     return $http.put('/api/voluntarios', data);
-        // },                        
-        // delete : function(id) {
-        //     return $http.delete('/api/voluntarios/' + id);
-        // },
-        // findByCPF : function(cpf) {
-        //     return $http.get('/api/voluntarios?cpf=' + cpf);
-        // },
-        // findByAreaInteresse : function(area_interesse) {
-        //     return $http.get('/api/voluntarios?area_interesse=' + area_interesse);
-        // }
+        },
+        matricularSe: function (turma) {
+            return $http.post('/api/turmas/matricular-se', turma);  
+        },
+        cancelarMatricula: function (turma) {
+            return $http.post('/api/turmas/cancelar-matricula', turma);  
+        }            
     }
 }]
 ).factory('Historicos', ['$http', function($http){
