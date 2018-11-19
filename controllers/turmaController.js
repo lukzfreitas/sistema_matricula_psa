@@ -1,9 +1,12 @@
 var service = require('../services/service');
 var mongoose = require('mongoose');
+var passport = require('passport');
 var Turma = mongoose.model('Turma');
+var Aluno = mongoose.model('Aluno');
 
 
-module.exports.findAll = function (request, response) {
+module.exports.findAll = function (request, response) {  
+
     Turma.find({}, function (error, result){
         if(error) {
             service.sendJSON(response, 500, error);
