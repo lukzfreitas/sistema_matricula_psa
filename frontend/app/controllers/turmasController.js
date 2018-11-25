@@ -20,6 +20,7 @@ angular.module('turmasController', [])
 
             $scope.matricularSe = function (index, turmas, turma) {
                 var turmaMatriculada = {codCred: turma.codCred, numeroTurma: turma.numeroTurma};
+                
                 Turmas.matricularSe(turmaMatriculada).success(function (result) {                    
                     
                     $mdDialog.show(
@@ -28,7 +29,7 @@ angular.module('turmasController', [])
                         .clickOutsideToClose(true)                        
                         .textContent('Matrícula realizada com sucesso.')                        
                         .ok('Fechar')                        
-                    );
+                    );                    
                     $scope.turmas[index].vagas = result.vagas - 1;                    
                     $scope.turmas[index].matriculado = true;
                 })

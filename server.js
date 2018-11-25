@@ -1,31 +1,38 @@
-'use strict';
-
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
+var port = process.env.PORT || 8080;
 var passport = require('passport');
-var session = require('express-session');
 var flash = require('connect-flash');
-require('./db');
-var routeapi = require('./routes/api');
-var LocalStrategy = require('passport-local').Strategy;
 
-app.use(session({ secret: 'psasecret', resave: true,  saveUninitialized: true })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
+require('./backend/config/passport')(passport);
+require('./backend/config/db');
+
+app.use(morgan('dev'));
+app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
-app.use('/api', routeapi);
-app.use(express.static('./public'));
-app.use(express.static('./node_modules'));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var Aluno = require('./models/aluno');
-passport.use(new LocalStrategy(Aluno.authenticate()));
-passport.serializeUser(Aluno.serializeUser());
-passport.deserializeUser(Aluno.deserializeUser());
+// required for passport
+app.use(session({    
+    cookie: { expires : new Date(Date.now() + 3600000)  }, // uma hora
+    secret: 'blah',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(express.static('./frontend'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/frontend/app/views');
 
-var server = app.listen(8080, function () {
-    console.log('Express disponível em ' + server.address().port);
-});
+require('./backend/routes/routes.js')(app, passport);
+
+app.listen(port);
+console.log('Conectado na porta: ' + port);

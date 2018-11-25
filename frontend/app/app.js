@@ -12,19 +12,19 @@ var app = angular.module('app', [
 ]);     
 
 app.config (function ($routeProvider, $mdIconProvider) {    
-    $routeProvider
-    .when("/", {
-        controller: "disciplinasController",
-        templateUrl: "app/views/disciplinas.html"       
+    $routeProvider    
+    .when("/profile", {
+        controller: "turmasController",
+        templateUrl: "app/views/profile.html"       
     })    
     .when("/turmas", {
-        controller: "turmasController",
-        templateUrl: "app/views/turmas.html",        
+        controller: "disciplinasController",
+        templateUrl: "app/views/disciplinas.html",        
     })
-    .when("/historicos", {
-        controller: "historicosController",
-        templateUrl: "app/views/historicos.html",        
-    })    
+    // .when("/historicos", {
+    //     controller: "historicosController",
+    //     templateUrl: "app/views/historicos.html",        
+    // })    
     // .when("/voluntarios", {
     //     controller: "voluntariosController",
     //     templateUrl: "app/views/voluntarios.html"

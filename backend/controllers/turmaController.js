@@ -1,6 +1,5 @@
 var service = require('../services/service');
 var mongoose = require('mongoose');
-var passport = require('passport');
 var Turma = mongoose.model('Turma');
 var Aluno = mongoose.model('Aluno');
 
@@ -16,18 +15,17 @@ module.exports.findAll = function (request, response) {
     }); 
 }
 
-module.exports.matricularse = function (request, response) {    
+module.exports.matricularSe = function (request, response) {    
+    console.log('request', request);
     var codCred = request.body.codCred;
-    var numeroTurma = request.body.numeroTurma
+    var numeroTurma = request.body.numeroTurma;    
     var query = {codCred: codCred, numeroTurma: numeroTurma, vagas: {$gt: 0}};
-    var set = {$inc: {vagas: -1}};
+    var set = {$inc: {vagas: -1}};    
     Turma.findOneAndUpdate(query, set, function(error, result){
         if (error) {
-            service.sendJSON(response, 500, error);
-            console.log(error);
+            service.sendJSON(response, 500, error);            
         } else {
-            service.sendJSON(response, 200, result);
-            console.log(result);
+            service.sendJSON(response, 200, result);            
         }
     }); 
 }

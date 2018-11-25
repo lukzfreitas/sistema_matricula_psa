@@ -11,8 +11,8 @@ mongoose.connection.on('error', function(error){
 mongoose.connection.on('disconnected', function () {
     console.log('Mongoose disconneted');
 });
-require('./models/disciplina');
-require('./models/historico');
-require('./models/requisito');
-require('./models/turma');
-require('./models/aluno');
+require('../models/disciplina');
+require('../models/historico');
+require('../models/requisito');
+require('../models/turma');
+require('../models/aluno');
