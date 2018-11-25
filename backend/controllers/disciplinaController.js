@@ -1,7 +1,6 @@
 var service = require('../services/service');
 var mongoose = require('mongoose');
 var Disciplina = mongoose.model('Disciplina');
-var Historico = mongoose.model('Historico');
 
 module.exports.findAll = function (request, response) {
     Disciplina.find({}, function (error, result) {
