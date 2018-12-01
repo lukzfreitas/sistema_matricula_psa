@@ -41,15 +41,19 @@ angular.module('turmasController', [])
                 }
 
                 const inicializacao = function () {
+                    $scope.turmasMatriculadas = [];
                     Aluno.get().success(function (aluno) {
                         Turmas.get().success(function (turmas) {
                             $scope.turmas = turmas.map(function (turma) {
-                                if (turma.alunos.includes(aluno.alunoId)) turma.matriculado = true;
+                                if (turma.alunos.includes(aluno.alunoId)) {
+                                    $scope.turmasMatriculadas.push(turma);
+                                    turma.matriculado = true;
+                                }                                 
                                 return turma;
                             });
                         });
                         gerarGrade();
-                        preencherGrade(aluno.turmasMatriculadas);
+                        preencherGrade(aluno.turmasMatriculadas);                        
                     });
                 }
 
@@ -115,6 +119,7 @@ angular.module('turmasController', [])
                             );
                             $scope.turmas[index].vagas = result.vagas - 1;
                             $scope.turmas[index].matriculado = true;
+                            $scope.turmasMatriculadas.push(result);
 
                             var horarios = result.horario.split(" ");
                             horarios.forEach(horario => {
@@ -125,7 +130,7 @@ angular.module('turmasController', [])
                                 } else {
                                     $scope.matriz[dia][2] = result.codCred;
                                 }
-                            });
+                            });                            
                         });
                     });
                 }
@@ -156,6 +161,12 @@ angular.module('turmasController', [])
                                 $scope.matriz[dia][2] = "---";
                             }
                         });
+
+                        for (var i = 0; i < $scope.turmasMatriculadas.length; i++) {                        
+                            if ($scope.turmasMatriculadas[i].codCred == turma.codCred) {
+                                $scope.turmasMatriculadas.splice(i, 1);
+                            }
+                        }
                     })
                 }
             }]);

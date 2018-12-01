@@ -56,12 +56,12 @@
                                 <th class="ng-binding col-sm-2 text-center">Terça</th>
                                 <th class="ng-binding col-sm-2 text-center">Quarta</th>
                                 <th class="ng-binding col-sm-2 text-center">Quinta</th>
-                                <th class="ng-binding col-sm-2 text-center">Sexta</th>                                
+                                <th class="ng-binding col-sm-2 text-center">Sexta</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>LM</td>                                
+                                <td>LM</td>
                                 <td>{{matriz[2][1]}}</td>
                                 <td>{{matriz[3][1]}}</td>
                                 <td>{{matriz[4][1]}}</td>
@@ -69,7 +69,7 @@
                                 <td>{{matriz[6][1]}}</td>
                             </tr>
                             <tr>
-                                <td>NP</td>                                
+                                <td>NP</td>
                                 <td>{{matriz[2][2]}}</td>
                                 <td>{{matriz[3][2]}}</td>
                                 <td>{{matriz[4][2]}}</td>
@@ -78,6 +78,17 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div ng-show="turmasMatriculadas.length > 0" class="row">
+            <div class="col-sm-12">
+                <div class="well">
+                    <tbody>
+                        <div ng-repeat="turma in turmasMatriculadas track by $index">
+                           {{turma.codCred}} - {{turma.nomeDisciplina}} - {{turma.numeroTurma}}
+                        </div>
+                    </tbody>
                 </div>
             </div>
         </div>
@@ -98,7 +109,7 @@
             <tbody>
                 <tr ng-repeat="turma in turmas track by $index">
                     <td class="ng-binding col-md-3 col-xs-3">{{turma.codCred}}</td>
-                    <td class="ng-binding col-md-4 col-xs-4">{{turma.nomeTurma}}</td>
+                    <td class="ng-binding col-md-4 col-xs-4">{{turma.nomeDisciplina}}</td>
                     <td class="ng-binding col-md-1 col-xs-1">{{turma.numeroTurma}}</td>
                     <td class="ng-binding col-md-1 col-xs-1">{{turma.vagas}}</td>
                     <td class="ng-binding col-md-3 col-xs-3">{{turma.horario}}</td>
