@@ -1,10 +1,9 @@
 angular.module('service', [])
-
-.factory('Disiciplinas', ['$http', function($http){    
-    return {        
-        get : function() {                        
-            return $http.get('/api/disciplinas');
-        }        
+.factory('Aluno', ['$http', function($http){
+    return {
+        get : function() {
+            return $http.get('/aluno');
+        }
     }
 }]
 ).factory('Turmas', ['$http', function($http){
@@ -18,20 +17,6 @@ angular.module('service', [])
         cancelarMatricula: function (turma) {
             return $http.post('/turmas/cancelar-matricula', turma);  
         }            
-    }
-}]
-).factory('Historicos', ['$http', function($http){
-    return {        
-        get : function() {                        
-            return $http.get('/api/historicos');
-        }
-    }
-}]
-).factory('Requisitos', ['$http', function($http){
-    return {
-        getByCodCred: function(codCred) {
-            return $http.get('/api/requisitos/' + codCred);
-        }
     }
 }]
 ).factory('formatDateService', function () {

@@ -1,4 +1,5 @@
 var ctrTurmas = require('../controllers/turmaController');
+var ctrAlunos = require('../controllers/alunoController');
 
 module.exports = function (app, passport) {    
 
@@ -17,6 +18,8 @@ module.exports = function (app, passport) {
             user: req.user
         });
     });
+
+    app.get('/aluno', isLoggedIn, ctrAlunos.find);
 
     app.get('/turmas', isLoggedIn, ctrTurmas.findAll);
 

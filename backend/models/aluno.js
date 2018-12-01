@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const AlunoSchema = Schema({
     matricula : {type: String, maxlength: 9, minlength: 9},
     email: {type: String, required: true},
-    password: {type: String, require: true}    
+    password: {type: String, require: true},
+    turmasMatriculadas: [{type: Schema.Types.ObjectId, ref: 'Turma'}],  
 });
 
 AlunoSchema.methods.generateHash = function(password) {

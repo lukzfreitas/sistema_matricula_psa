@@ -9,14 +9,11 @@ angular.module('turmasController', [])
             '$location',
             '$q',
             'formatDateService',
-            'Turmas', function ($scope, $http, $mdDialog, $mdMedia, $location, $q, formatDateService, Turmas) {
+            'Turmas',
+            'Aluno', function ($scope, $http, $mdDialog, $mdMedia, $location, $q, formatDateService, Turmas, Aluno) {
                 $scope.titulo = 'Turmas';
 
-                // =============================================================================
-                // Todas Turmas ================================================================
-                // =============================================================================
-                Turmas.get().success(function (data) {
-                    $scope.turmas = data;
+                const gerarGrade = function () {
                     const iMaxNum = 6
                     var i, j;
                     $scope.matriz = new Array(iMaxNum + 1);
@@ -26,7 +23,37 @@ angular.module('turmasController', [])
                             $scope.matriz[i][j] = '---';
                         }
                     }
-                });
+                }
+
+                const preencherGrade = function (turmasMatriculadas) {
+                    turmasMatriculadas.forEach(turma => {
+                        var horarios = turma.horario.split(" ");
+                        horarios.forEach(horario => {
+                            var dia = parseInt(horario.charAt(0));
+                            var hora = horario.substring(1, horario.length);
+                            if (hora == "LM") {
+                                $scope.matriz[dia][1] = turma.codCred;
+                            } else {
+                                $scope.matriz[dia][2] = turma.codCred;
+                            }
+                        });
+                    });
+                }
+
+                const inicializacao = function () {
+                    Aluno.get().success(function (aluno) {
+                        Turmas.get().success(function (turmas) {
+                            $scope.turmas = turmas.map(function (turma) {
+                                if (turma.alunos.includes(aluno.alunoId)) turma.matriculado = true;
+                                return turma;
+                            });
+                        });
+                        gerarGrade();
+                        preencherGrade(aluno.turmasMatriculadas);
+                    });
+                }
+
+                inicializacao();
 
                 // =============================================================================
                 // Verifica se está matriculado em horário =====================================

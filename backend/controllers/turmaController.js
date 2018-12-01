@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var Turma = mongoose.model('Turma');
 var Historico = mongoose.model('Historico');
 var Requisito = mongoose.model('Requisito');
+var Aluno = mongoose.model('Aluno');
 
 module.exports.findAll = function (request, response) {
 
@@ -34,12 +35,19 @@ module.exports.matricularSe = function (request, response) {
     var codCred = request.body.codCred;
     var numeroTurma = request.body.numeroTurma;
     var query = { codCred: codCred, numeroTurma: numeroTurma, vagas: { $gt: 0 } };
-    var set = { $inc: { vagas: -1 } };
-    Turma.findOneAndUpdate(query, set, function (error, result) {
+    var set = { $inc: { vagas: -1 }, $push: {alunos: request.user._id} };
+    Turma.findOneAndUpdate(query, set, function (error, turma) {
         if (error) {
             service.sendJSON(response, 500, error);
-        } else {
-            service.sendJSON(response, 200, result);
+        } else {            
+            var query = {$push: {turmasMatriculadas: turma._id}};
+            Aluno.findByIdAndUpdate(request.user._id, query, function (error, aluno) {
+                if (error) {
+                    service.sendJSON(response, 500, error);
+                } else {
+                    service.sendJSON(response, 200, turma);
+                }
+            });            
         }
     });
 }
@@ -48,14 +56,19 @@ module.exports.cancelarMatricula = function (request, response) {
     var codCred = request.body.codCred;
     var numeroTurma = request.body.numeroTurma;
     var query = { codCred: codCred, numeroTurma: numeroTurma };
-    var set = { $inc: { vagas: 1 } };
-    Turma.findOneAndUpdate(query, set, function (error, result) {
+    var set = { $inc: { vagas: 1 }, $pull: {alunos: request.user._id} };
+    Turma.findOneAndUpdate(query, set, function (error, turma) {
         if (error) {
-            service.sendJSON(response, 500, error);
-            console.log(error);
+            service.sendJSON(response, 500, error);            
         } else {
-            service.sendJSON(response, 200, result);
-            console.log(result);
+            var query = {$pull: {turmasMatriculadas: turma._id}};            
+            Aluno.findByIdAndUpdate(request.user._id, query, function (error, aluno) {
+                if (error) {
+                    service.sendJSON(response, 500, error);
+                } else {
+                    service.sendJSON(response, 200, turma);
+                }
+            })
         }
     });
 }
