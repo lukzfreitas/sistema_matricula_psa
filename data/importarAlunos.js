@@ -4,7 +4,7 @@ var dbname          = 'sistema_matriculas';
 var collectionName  = 'Alunos';
 var url             = 'mongodb://localhost:27017/'+dbname;
 var filename        = 'psa_alunos.csv';
-var Aluno = require('../app/models/aluno');
+var Aluno = require('../backend/models/aluno');
 console.log('***************Process started');
 
 mongoClient.connect(url,function(err,db){
