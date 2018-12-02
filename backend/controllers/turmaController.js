@@ -79,6 +79,7 @@ module.exports.totalVagasPorDisciplina = function (request, response) {
         if (error) {
             service.sendJSON(response, 500, error);
         } else {
+            console.log(result);
             service.sendJSON(response, 200, result);
         }
     });

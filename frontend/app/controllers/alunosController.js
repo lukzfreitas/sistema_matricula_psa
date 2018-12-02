@@ -27,36 +27,38 @@ angular.module('alunosController', [])
 
                 const preencherGrade = function (turmasMatriculadas) {
                     turmasMatriculadas.forEach(turma => {
-                        var horarios = turma.horario.split(" ");
-                        horarios.forEach(horario => {
-                            var dia = parseInt(horario.charAt(0));
-                            var hora = horario.substring(1, horario.length);
-                            if (hora == "LM") {
-                                $scope.matriz[dia][1] = turma.codCred;
-                            } else {
-                                $scope.matriz[dia][2] = turma.codCred;
-                            }
-                        });
+                        if (turma.horario !== "PP" && turma.horario !== "TCCI" && turma.horario !== "TCCII") {
+                            var horarios = turma.horario.split(" ");
+                            horarios.forEach(horario => {
+                                var dia = parseInt(horario.charAt(0));
+                                var hora = horario.substring(1, horario.length);
+                                if (hora == "LM") {
+                                    $scope.matriz[dia][1] = turma.codCred;
+                                } else {
+                                    $scope.matriz[dia][2] = turma.codCred;
+                                }
+                            });
+                        }
                     });
                 }
 
                 const inicializacao = function () {
                     $scope.turmasMatriculadas = [];
                     Aluno.get().success(function (aluno) {
-                        Turmas.get().success(function (turmas) {                                                        
+                        Turmas.get().success(function (turmas) {
                             $scope.turmas = turmas.map(function (turma) {
                                 if (turma.alunos.includes(aluno.alunoId)) {
                                     $scope.turmasMatriculadas.push(turma);
                                     turma.matriculado = true;
-                                }                                 
+                                }
                                 return turma;
                             });
                         });
-                        gerarGrade();                        
+                        gerarGrade();
                         if (aluno.turmasMatriculadas !== undefined) {
-                            preencherGrade(aluno.turmasMatriculadas);                        
+                            preencherGrade(aluno.turmasMatriculadas);
                         }
-                        
+
                     });
                 }
 
@@ -67,6 +69,10 @@ angular.module('alunosController', [])
                 // =============================================================================
                 const isMatriculado = function (turma) {
                     var deferred = $q.defer();
+                    if (turma.horario === "PP" || turma.horario === "TCCI" || turma.horario === "TCCII") {
+                        deferred.resolve(false);
+                        return deferred.promise;
+                    }
                     var horarios = turma.horario.split(" ");
                     var matriculado = false;
                     horarios.forEach(horario => {
@@ -122,7 +128,10 @@ angular.module('alunosController', [])
                             );
                             $scope.turmas[index].vagasDisponiveis = result.vagasDisponiveis - 1;
                             $scope.turmas[index].matriculado = true;
+
                             $scope.turmasMatriculadas.push(result);
+
+                            if (result.horario === "PP" || result.horario === "TCCI" || result.horario === "TCCII") return;
 
                             var horarios = result.horario.split(" ");
                             horarios.forEach(horario => {
@@ -133,7 +142,7 @@ angular.module('alunosController', [])
                                 } else {
                                     $scope.matriz[dia][2] = result.codCred;
                                 }
-                            });                            
+                            });
                         });
                     });
                 }
@@ -154,6 +163,14 @@ angular.module('alunosController', [])
                         $scope.turmas[index].vagasDisponiveis = result.vagasDisponiveis + 1;
                         $scope.turmas[index].matriculado = false;
 
+                        for (var i = 0; i < $scope.turmasMatriculadas.length; i++) {
+                            if ($scope.turmasMatriculadas[i].codCred == turma.codCred) {
+                                $scope.turmasMatriculadas.splice(i, 1);
+                            }
+                        }
+
+                        if (result.horario === "PP" || result.horario === "TCCI" || result.horario === "TCCII") return;
+
                         var horarios = result.horario.split(" ");
                         horarios.forEach(horario => {
                             var dia = parseInt(horario.charAt(0));
@@ -165,11 +182,6 @@ angular.module('alunosController', [])
                             }
                         });
 
-                        for (var i = 0; i < $scope.turmasMatriculadas.length; i++) {                        
-                            if ($scope.turmasMatriculadas[i].codCred == turma.codCred) {
-                                $scope.turmasMatriculadas.splice(i, 1);
-                            }
-                        }
                     })
                 }
             }]);

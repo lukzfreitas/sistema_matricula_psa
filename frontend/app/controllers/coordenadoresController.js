@@ -14,7 +14,7 @@ angular.module('coordenadoresController', [])
             'Aluno', function ($scope, $http, $mdDialog, $mdMedia, $location, $q, $filter, formatDateService, Turmas, Aluno) {
 
                 $scope.filtros = [
-                    { id: 1, descricao: 'vagas por disciplina' },
+                    { id: 1, descricao: 'vagas disponíveis por disciplina' },
                     { id: 2, descricao: 'alunos matriculados por disciplina' },
                 ];
 
