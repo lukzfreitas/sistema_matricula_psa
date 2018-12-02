@@ -32,6 +32,7 @@ mongoClient.connect(url,function(err,db){
                 object['nomeDisciplina'] = arr[1]; //Just an example                
                 object['numeroTurma'] = parseInt(arr[2]); //Just an example                
                 object['vagas'] = parseInt(arr[3]); //Just an example               
+                object['vagasDisponiveis'] = parseInt(arr[3]); //Just an example               
                 object['horario'] = arr[4]; //Just an example                
                 var res = collection.insert(object);
             }

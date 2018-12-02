@@ -5,6 +5,7 @@ const TurmaSchema = Schema({
     nomeDisciplina: {type: String, required: true},
     numeroTurma: {type: Number, required: true},
     vagas: {type: Number, required: true},
+    vagasDisponiveis: {type: Number, required: true},
     horario: {type: String, required: true},
     alunos: [{type: Schema.Types.ObjectId, ref: 'Aluno'}]    
 });

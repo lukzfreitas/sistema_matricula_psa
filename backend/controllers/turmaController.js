@@ -31,23 +31,23 @@ module.exports.findAll = function (request, response) {
     });
 }
 
-module.exports.matricularSe = function (request, response) {    
+module.exports.matricularSe = function (request, response) {
     var codCred = request.body.codCred;
     var numeroTurma = request.body.numeroTurma;
-    var query = { codCred: codCred, numeroTurma: numeroTurma, vagas: { $gt: 0 } };
-    var set = { $inc: { vagas: -1 }, $push: {alunos: request.user._id} };
+    var query = { codCred: codCred, numeroTurma: numeroTurma, vagasDisponiveis: { $gt: 0 } };
+    var set = { $inc: { vagasDisponiveis: -1 }, $push: { alunos: request.user._id } };
     Turma.findOneAndUpdate(query, set, function (error, turma) {
         if (error) {
             service.sendJSON(response, 500, error);
-        } else {            
-            var query = {$push: {turmasMatriculadas: turma._id}};
+        } else {
+            var query = { $push: { turmasMatriculadas: turma._id } };
             Aluno.findByIdAndUpdate(request.user._id, query, function (error, aluno) {
                 if (error) {
                     service.sendJSON(response, 500, error);
                 } else {
                     service.sendJSON(response, 200, turma);
                 }
-            });            
+            });
         }
     });
 }
@@ -56,12 +56,12 @@ module.exports.cancelarMatricula = function (request, response) {
     var codCred = request.body.codCred;
     var numeroTurma = request.body.numeroTurma;
     var query = { codCred: codCred, numeroTurma: numeroTurma };
-    var set = { $inc: { vagas: 1 }, $pull: {alunos: request.user._id} };
+    var set = { $inc: { vagasDisponiveis: 1 }, $pull: { alunos: request.user._id } };
     Turma.findOneAndUpdate(query, set, function (error, turma) {
         if (error) {
-            service.sendJSON(response, 500, error);            
+            service.sendJSON(response, 500, error);
         } else {
-            var query = {$pull: {turmasMatriculadas: turma._id}};            
+            var query = { $pull: { turmasMatriculadas: turma._id } };
             Aluno.findByIdAndUpdate(request.user._id, query, function (error, aluno) {
                 if (error) {
                     service.sendJSON(response, 500, error);
@@ -71,4 +71,33 @@ module.exports.cancelarMatricula = function (request, response) {
             })
         }
     });
+}
+
+module.exports.totalVagasPorDisciplina = function (request, response) {
+    var group = { $group: { _id: '$nomeDisciplina', total: { $sum: '$vagasDisponiveis' } } };
+    Turma.aggregate(group, function (error, result) {
+        if (error) {
+            service.sendJSON(response, 500, error);
+        } else {
+            service.sendJSON(response, 200, result);
+        }
+    });
+}
+
+
+module.exports.alunosPorDisciplina = function (request, response) {
+    Turma.aggregate(
+        { $match: { alunos: { $size: 1 } } },
+        {
+            $group: {
+                _id: '$nomeDisciplina',
+                total: { $sum: 1 }
+            }
+        }, function (error, result) {
+            if (error) {
+                service.sendJSON(response, 500, error);
+            } else {
+                service.sendJSON(response, 200, result);
+            }
+        });
 }

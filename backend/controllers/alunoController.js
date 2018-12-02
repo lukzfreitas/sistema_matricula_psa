@@ -7,7 +7,7 @@ module.exports.find = function(request, response) {
         if (error) {
             service.sendJSON(response, 500, error);
         } else {            
-            var result = {alunoId: aluno._id, turmasMatriculadas: aluno.turmasMatriculadas}
+            var result = {alunoId: aluno._id, turmasMatriculadas: aluno.turmasMatriculadas}            
             service.sendJSON(response, 200, result);
         }
     });

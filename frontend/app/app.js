@@ -3,24 +3,22 @@ var app = angular.module('app', [
     'ngRoute',    
     'ngResource',   
     'ngMessages',
-    'service',    
-    'disciplinasController',    
-    'turmasController',
-    'historicosController',
-    'modalRequisitosDisciplinaController',
+    'service',        
+    'alunosController',        
+    'coordenadoresController',
     'ui.mask',
 ]);     
 
 app.config (function ($routeProvider, $mdIconProvider) {    
     $routeProvider    
-    .when("/profile", {
-        controller: "turmasController",
-        templateUrl: "app/views/profile.html"       
-    })    
-    .when("/turmas", {
-        controller: "disciplinasController",
-        templateUrl: "app/views/disciplinas.html",        
-    })    
+    .when("/alunos", {
+        controller: "alunosController",
+        templateUrl: "app/views/alunos.html"       
+    })        
+    .when("/coordenadores", {
+        controller: "coordenadoresController",
+        templateUrl: "app/views/coordenadores.html"       
+    })        
     .otherwise({redirectTo: "/"});
     $mdIconProvider.icon('md-close', 'img/icons/ic_close_24px.svg', 24);
     $mdIconProvider.fontSet('md', 'material-icons');

@@ -16,7 +16,13 @@ angular.module('service', [])
         },
         cancelarMatricula: function (turma) {
             return $http.post('/turmas/cancelar-matricula', turma);  
-        }            
+        },
+        alunosPorDisciplina: function () {
+            return $http.get('/turmas/alunos-por-disciplina');
+        },            
+        totalVagasPorDisciplina: function () {
+            return $http.get('/turmas/total-vagas-por-disciplina');
+        }
     }
 }]
 ).factory('formatDateService', function () {

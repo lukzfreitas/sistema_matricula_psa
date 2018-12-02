@@ -33,6 +33,7 @@ mongoClient.connect(url,function(err,db){
                 object['email'] = arr[1]; //Just an example
                 var aluno = new Aluno();
                 object['password'] = aluno.generateHash(arr[2]); //Just an example
+                object['isCoordenador'] = arr[3] == 1 ? true : false;
                 var res = collection.insert(object);
             }
             catch (err){

@@ -1,6 +1,6 @@
 'use strict';
-angular.module('turmasController', [])
-    .controller('turmasController',
+angular.module('alunosController', [])
+    .controller('alunosController',
         [
             '$scope',
             '$http',
@@ -43,7 +43,7 @@ angular.module('turmasController', [])
                 const inicializacao = function () {
                     $scope.turmasMatriculadas = [];
                     Aluno.get().success(function (aluno) {
-                        Turmas.get().success(function (turmas) {
+                        Turmas.get().success(function (turmas) {                                                        
                             $scope.turmas = turmas.map(function (turma) {
                                 if (turma.alunos.includes(aluno.alunoId)) {
                                     $scope.turmasMatriculadas.push(turma);
@@ -52,8 +52,11 @@ angular.module('turmasController', [])
                                 return turma;
                             });
                         });
-                        gerarGrade();
-                        preencherGrade(aluno.turmasMatriculadas);                        
+                        gerarGrade();                        
+                        if (aluno.turmasMatriculadas !== undefined) {
+                            preencherGrade(aluno.turmasMatriculadas);                        
+                        }
+                        
                     });
                 }
 
@@ -117,7 +120,7 @@ angular.module('turmasController', [])
                                     .textContent('Matrícula realizada com sucesso.')
                                     .ok('Fechar')
                             );
-                            $scope.turmas[index].vagas = result.vagas - 1;
+                            $scope.turmas[index].vagasDisponiveis = result.vagasDisponiveis - 1;
                             $scope.turmas[index].matriculado = true;
                             $scope.turmasMatriculadas.push(result);
 
@@ -148,7 +151,7 @@ angular.module('turmasController', [])
                                 .textContent('Matrícula cancelada com sucesso.')
                                 .ok('Fechar')
                         );
-                        $scope.turmas[index].vagas = result.vagas + 1;
+                        $scope.turmas[index].vagasDisponiveis = result.vagasDisponiveis + 1;
                         $scope.turmas[index].matriculado = false;
 
                         var horarios = result.horario.split(" ");

@@ -14,9 +14,15 @@ module.exports = function (app, passport) {
     // Rotas seguras ===============================================================
     // =============================================================================
     app.get('/profile', isLoggedIn, function (req, res) {
-        res.render('profile.html', {
-            user: req.user
-        });
+        if (req.user.isCoordenador) {
+            res.render('coordenador.html', {
+                user: req.user
+            });
+        } else {
+            res.render('alunos.html', {
+                user: req.user
+            });
+        }        
     });
 
     app.get('/aluno', isLoggedIn, ctrAlunos.find);
@@ -26,6 +32,11 @@ module.exports = function (app, passport) {
     app.post('/turmas/matricular-se', isLoggedIn, ctrTurmas.matricularSe);
 
     app.post('/turmas/cancelar-matricula', isLoggedIn, ctrTurmas.cancelarMatricula);
+
+    app.get('/turmas/alunos-por-disciplina', isLoggedIn, ctrTurmas.alunosPorDisciplina);
+
+    app.get('/turmas/total-vagas-por-disciplina', isLoggedIn, ctrTurmas.totalVagasPorDisciplina);
+    
     
     // =============================================================================
     // logout ===============================================================
@@ -44,7 +55,7 @@ module.exports = function (app, passport) {
     });
 
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/profile',
+        successRedirect: '/profile',        
         failureRedirect: '/login',
         failureFlash: true
     }));

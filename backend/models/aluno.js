@@ -6,6 +6,7 @@ const AlunoSchema = Schema({
     email: {type: String, required: true},
     password: {type: String, require: true},
     turmasMatriculadas: [{type: Schema.Types.ObjectId, ref: 'Turma'}],  
+    isCoordenador: {type: Boolean}
 });
 
 AlunoSchema.methods.generateHash = function(password) {
