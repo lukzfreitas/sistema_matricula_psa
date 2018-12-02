@@ -7,6 +7,7 @@ const TurmaSchema = Schema({
     vagas: {type: Number, required: true},
     vagasDisponiveis: {type: Number, required: true},
     horario: {type: String, required: true},
-    alunos: [{type: Schema.Types.ObjectId, ref: 'Aluno'}]    
+    alunos: [{type: Schema.Types.ObjectId, ref: 'Aluno'}],
+    totalMatriculados: {type: Number, default: 1, required: true},
 });
 module.exports = mongoose.model('Turma', TurmaSchema, 'Turmas');

@@ -35,7 +35,7 @@ module.exports.matricularSe = function (request, response) {
     var codCred = request.body.codCred;
     var numeroTurma = request.body.numeroTurma;
     var query = { codCred: codCred, numeroTurma: numeroTurma, vagasDisponiveis: { $gt: 0 } };
-    var set = { $inc: { vagasDisponiveis: -1 }, $push: { alunos: request.user._id } };
+    var set = { $inc: { vagasDisponiveis: -1, totalMatriculados: 1 }, $push: { alunos: request.user._id } };
     Turma.findOneAndUpdate(query, set, function (error, turma) {
         if (error) {
             service.sendJSON(response, 500, error);
@@ -56,7 +56,7 @@ module.exports.cancelarMatricula = function (request, response) {
     var codCred = request.body.codCred;
     var numeroTurma = request.body.numeroTurma;
     var query = { codCred: codCred, numeroTurma: numeroTurma };
-    var set = { $inc: { vagasDisponiveis: 1 }, $pull: { alunos: request.user._id } };
+    var set = { $inc: { vagasDisponiveis: 1, totalMatriculados: -1 }, $pull: { alunos: request.user._id } };
     Turma.findOneAndUpdate(query, set, function (error, turma) {
         if (error) {
             service.sendJSON(response, 500, error);
@@ -84,20 +84,13 @@ module.exports.totalVagasPorDisciplina = function (request, response) {
     });
 }
 
-
 module.exports.alunosPorDisciplina = function (request, response) {
-    Turma.aggregate(
-        { $match: { alunos: { $size: 1 } } },
-        {
-            $group: {
-                _id: '$nomeDisciplina',
-                total: { $sum: 1 }
-            }
-        }, function (error, result) {
-            if (error) {
-                service.sendJSON(response, 500, error);
-            } else {
-                service.sendJSON(response, 200, result);
-            }
-        });
+    var group = { '$group': { _id: '$nomeDisciplina', total: { $sum: '$totalMatriculados' } } };
+    Turma.aggregate(group, function (error, result) {
+        if (error) {
+            service.sendJSON(response, 500, error);
+        } else {
+            service.sendJSON(response, 200, result);
+        }
+    });
 }
