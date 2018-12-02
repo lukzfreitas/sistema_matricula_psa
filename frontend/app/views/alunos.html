@@ -111,15 +111,15 @@
                     <td class="ng-binding col-md-3 col-xs-3">{{turma.codCred}}</td>
                     <td class="ng-binding col-md-4 col-xs-4">{{turma.nomeDisciplina}}</td>
                     <td class="ng-binding col-md-1 col-xs-1">{{turma.numeroTurma}}</td>
-                    <td class="ng-binding col-md-1 col-xs-1">{{turma.vagas}}</td>
+                    <td class="ng-binding col-md-1 col-xs-1">{{turma.vagasDisponiveis}}</td>
                     <td class="ng-binding col-md-3 col-xs-3">{{turma.horario}}</td>
 
                     <td class="ng-binding col-md-1 col-xs-1">
-                        <md-button ng-show="!turma.matriculado && turma.vagas > 0" ng-click="matricularSe($index, turma)"
+                        <md-button ng-show="!turma.matriculado && turma.vagasDisponiveis > 0" ng-click="matricularSe($index, turma)"
                             class="btn-primary">matricular-se</md-button>
                         <md-button ng-show="turma.matriculado" ng-click="cancelarMatricula($index, turma)" class="btn-danger">cancelar
                             matricula</md-button>
-                        <label ng-show="!turma.matriculado && turma.vagas == 0"> Vaga indisponível </label>
+                        <label ng-show="!turma.matriculado && turma.vagasDisponiveis == 0"> Vaga indisponível </label>
                     </td>
 
                 </tr>
