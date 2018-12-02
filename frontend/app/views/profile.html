@@ -23,7 +23,7 @@
 
         <div class="page-header text-center">
             <h1><!--<span class="fa fa-lock"></span>--> Matrícula </h1>
-            <a href="/logout" class="btn btn-default">Logout</a>
+            <a href="/logout" class="btn btn-warning">Logout</a>
         </div>
 
         <div class="row">
@@ -117,8 +117,8 @@
 
                     <td class="ng-binding col-md-1 col-xs-1">
                         <md-button ng-show="!turma.matriculado && turma.vagas > 0" ng-click="matricularSe($index, turma)"
-                            class="md-primary">matricular-se</md-button>
-                        <md-button ng-show="turma.matriculado" ng-click="cancelarMatricula($index, turma)" class="md-primary">cancelar
+                            class="btn-primary">matricular-se</md-button>
+                        <md-button ng-show="turma.matriculado" ng-click="cancelarMatricula($index, turma)" class="btn-danger">cancelar
                             matricula</md-button>
                         <label ng-show="!turma.matriculado && turma.vagas == 0"> Vaga indisponível </label>
                     </td>
