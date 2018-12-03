@@ -8,7 +8,7 @@ Passo a passo dos pacotes a serem instalados:
 
 1. Clone do repositório: `git clone git@github.com:lukzfreitas/sistema_matricula_psa.git`
 2. Instalar Pacotes: `npm install`
-3. Alterar configurações do database config/database.js
+3. Alterar configurações do database `config/database.js`
 
 Importar dados para o database:
 
