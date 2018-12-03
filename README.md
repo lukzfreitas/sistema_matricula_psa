@@ -12,12 +12,17 @@ Passo a passo dos pacotes a serem instalados:
 
 Importar dados para o database:
 
-4.1 Acessar o diretório `/data`
-4.2 Executar `node importarAlunos.js`
-4.3 Executar `node importarDisciplinas.js`
-4.4 Executar `node importarHistoricos.js`
-4.5 Executar `node importarRequisitos.js`
-4.6 Executar `node importarTurmas.js`
+1. Acessar o diretório `/data`
+2. Executar `node importarAlunos.js`
+3. Executar `node importarDisciplinas.js`
+4. Executar `node importarHistoricos.js`
+5. Executar `node importarRequisitos.js`
+6. Executar `node importarTurmas.js`
 
-5. Iniciar servidor: `node server.js`
-6. Acessar endereço no navegador: `http://localhost:8080`
+Inicia Aplicação:
+
+1. Iniciar servidor: `node server.js`
+2. Acessar endereço no navegador: `http://localhost:8080`
+
+
+
